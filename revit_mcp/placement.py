@@ -4,7 +4,7 @@ Placement Module for Revit MCP
 Handles family placement and element creation functionality
 """
 
-from utils import get_element_name, find_family_symbol_safely, normalize_string
+from utils import get_element_name, find_family_symbol_safely, normalize_string, element_id_value
 from pyrevit import routes, revit, DB
 import json
 import traceback
@@ -195,7 +195,7 @@ def register_placement_routes(api):
 
                 logger.info(
                     "Family instance created with ID: {}".format(
-                        new_instance.Id.IntegerValue
+                        element_id_value(new_instance.Id)
                     )
                 )
 
@@ -275,7 +275,7 @@ def register_placement_routes(api):
                 # Return information about the placed instance
                 response_data = {
                     "status": "success",
-                    "element_id": new_instance.Id.IntegerValue,
+                    "element_id": element_id_value(new_instance.Id),
                     "family_name": family_name,
                     "type_name": type_name,
                     "requested_location": {"x": point.X, "y": point.Y, "z": point.Z},
@@ -472,7 +472,7 @@ def register_placement_routes(api):
                         {
                             "name": level_name,
                             "elevation": round(elevation, 2),
-                            "id": level.Id.IntegerValue,
+                            "id": element_id_value(level.Id),
                         }
                     )
 
