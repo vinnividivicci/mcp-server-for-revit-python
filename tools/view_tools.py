@@ -16,7 +16,7 @@ def register_view_tools(mcp, revit_get, revit_post, revit_image):
     @mcp.tool()
     async def list_revit_views(ctx: Context = None) -> str:
         """Get a list of all exportable views in the current Revit model"""
-        response = await revit_get("/list_views/", ctx)
+        response = await revit_get("/list_views/", ctx, timeout=120.0)
         return format_response(response)
 
     @mcp.tool()
@@ -54,5 +54,5 @@ def register_view_tools(mcp, revit_get, revit_post, revit_image):
         """
         if ctx:
             await ctx.info("Getting elements in current view...")
-        response = await revit_get("/current_view_elements/", ctx)
+        response = await revit_get("/current_view_elements/", ctx, timeout=120.0)
         return format_response(response)

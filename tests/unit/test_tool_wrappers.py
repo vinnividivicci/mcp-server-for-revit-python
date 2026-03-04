@@ -60,7 +60,7 @@ class TestViewTools:
 
     async def test_list_revit_views(self):
         await self.tools["list_revit_views"](ctx=None)
-        self.mock_get.assert_called_once_with("/list_views/", None)
+        self.mock_get.assert_called_once_with("/list_views/", None, timeout=120.0)
 
     async def test_get_revit_view(self):
         await self.tools["get_revit_view"](view_name="Level 1", ctx=None)
@@ -72,7 +72,7 @@ class TestViewTools:
 
     async def test_get_current_view_elements(self):
         await self.tools["get_current_view_elements"](ctx=None)
-        self.mock_get.assert_called_once_with("/current_view_elements/", None)
+        self.mock_get.assert_called_once_with("/current_view_elements/", None, timeout=120.0)
 
 
 # ---- Family tools ----
@@ -165,7 +165,7 @@ class TestColorTools:
     async def test_clear_colors(self):
         await self.tools["clear_colors"](category_name="Walls", ctx=None)
         self.mock_post.assert_called_once_with(
-            "/clear_colors/", {"category_name": "Walls"}, None
+            "/clear_colors/", {"category_name": "Walls"}, None, timeout=60.0
         )
 
     async def test_list_category_parameters(self):
@@ -200,6 +200,7 @@ class TestCodeExecutionTools:
             "/execute_code/",
             {"code": "print('hello')", "description": "Code execution"},
             None,
+            timeout=300.0,
         )
         assert result == "hello"
 
